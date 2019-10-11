@@ -1,5 +1,3 @@
-import { runInNewContext } from "vm";
-
 module.export = app => {
 
 	const TasksModel = app.models.tasks;
