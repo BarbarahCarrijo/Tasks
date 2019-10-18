@@ -62,3 +62,5 @@ module.export = app => {
 				});
 		});
 }
+
+//Se der pau, revisar as rotas de listagem por id e todos (FindOne e FindAll).
