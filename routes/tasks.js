@@ -1,15 +1,10 @@
 module.export = app => {
 
-	const TasksModel = app.models.tasks;
+	const Tasks = app.models.Tasks;
 
-	app.route("/tasks")
-		.all((req, res) => {
-			//middleware de pré-execução das rotas
-			delete req.body.id;
-			next();
-		})
-		.get((req, res) => {
-			// "/tasks": Lista de tarefas
+
+	app.route("/tasks") //Middleware de pré-execução das rotas
+		.get((req, res) => { // "/Tasks": Lista todas as Tasks
 			Tasks.findAll({})
 				.then(result => res.json(result))
 				.catch(error => {
@@ -17,8 +12,7 @@ module.export = app => {
 				});
 		})
 		.post((req, res) => {
-			// "tasks": Cadastra uma nova tarefa
-			Tasks.create(req.body)
+			Tasks.create(req.body) // "/Tasks": Cadastra uma nova task
 				.then(result => res.json(result))
 				.catch(error => {
 					res.status(412).json({msg: error.message});
@@ -26,18 +20,12 @@ module.export = app => {
 		});
 
 	app.route("/tasks/:id")
-		.all((req, res) => {
-			//middleware de pré-execução das rotas
-			delete req.body.id;
-			next();
-		})
-		.get((req, res) => {
-			// "/tasks/1": Consulta uma tarefa
+		.get((req, res) => { // "/Tasks/1": Consulta apenas uma task expecífica
 			Tasks.findOne({where: req.params})
 				.then(result => {
 					if (result){
 						res.json(result);
-					}else{
+					} else{
 						res.sendStatus(404);
 					}
 				})
@@ -45,22 +33,20 @@ module.export = app => {
 					res.status(412).json({msg: error.message});
 				});
 		})
-		.put((req, res) => {
-			// "/tasks/1": Atualiza uma tarefa
-			Tasks.update(req.body, {where: req.params})
+		.put((req, res) => { // "/Tasks/1":Atuliza a pergunta
+			Tasks.update(req.body,{where:req.params})
 				.then(result => res.sendStatus(204))
 				.catch(error => {
 					res.status(412).json({msg: error.message});
-				});
+				})
 		})
-		.delete((req, res) => {
-			// "tasks/1": Exclui uma arefa
+		.delete((req, res) => { // "/Tasks/1":Exclui a pergunta
 			Tasks.destroy({where: req.params})
 				.then(result => res.sendStatus(204))
 				.catch(error => {
-					res.status(412).json({msg: error.message});
+					res.status(412).json({ msg: error.message });
 				});
-		});
-}
 
-//Se der pau, revisar as rotas de listagem por id e todos (FindOne e FindAll).
+		});
+
+}
