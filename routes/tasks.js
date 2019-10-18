@@ -1,6 +1,6 @@
-module.export = app => {
+module.exports = app => {
 
-	const Tasks = app.models.Tasks;
+	const Tasks = app.db.models.Tasks;
 
 
 	app.route("/tasks") //Middleware de pré-execução das rotas
@@ -33,16 +33,16 @@ module.export = app => {
 					res.status(412).json({msg: error.message});
 				});
 		})
-		.put((req, res) => { // "/Tasks/1":Atuliza a pergunta
+		.put((req, res) => { // "/Tasks/1":Atuliza a task
 			Tasks.update(req.body,{where:req.params})
-				.then(result => res.sendStatus(204))
+				.then(result => res.json(result))
 				.catch(error => {
 					res.status(412).json({msg: error.message});
 				})
 		})
-		.delete((req, res) => { // "/Tasks/1":Exclui a pergunta
+		.delete((req, res) => { // "/Tasks/1":Exclui a task
 			Tasks.destroy({where: req.params})
-				.then(result => res.sendStatus(204))
+				.then(result => res.json(result))
 				.catch(error => {
 					res.status(412).json({ msg: error.message });
 				});
