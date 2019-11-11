@@ -31,12 +31,12 @@ module.exports = (sequelize, DataType) => {
         }
     });
 
-    Users.addHook("beforeCreate", (user, Option) => {
+    Users.addHook("beforeCreate", (user, options) => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(user.password, salt);
     });
 
-    Users.associate = function(models) {
+    Users.associate = function (models) {
         Users.hasMany(models.Tasks);
     };
 
